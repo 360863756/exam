@@ -1,0 +1,228 @@
+<html >
+<meta charset="UTF-8">
+<head>
+	<title>Azure Star v1.2</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="plugins/sweetalert/sweetalert.min.js"></script>
+	<script src="plugins/dataTables/jquery.dataTables.min.js"></script>
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="plugins/dataTables/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="plugins/sweetalert/sweetalert.css">
+</head>
+	<style>
+		@font-face {
+			font-family: "Guardians";
+			src: url(fonts/Guardians.ttf) format("truetype");
+		}
+
+		.guardians {
+			font-family: Guardians;
+			font-size: 25px;
+			font-weight: 900;
+			color: #D30035;	
+	    	text-shadow: 2px 2px black;
+		}
+
+		body {
+		    background: -webkit-linear-gradient(top, lightgray , white); /* For Safari 5.1 to 6.0 */
+		    background: -o-linear-gradient(top, lightgray , white); /* For Opera 11.1 to 12.0 */
+		    background: -moz-linear-gradient(top, lightgray , white); /* For Firefox 3.6 to 15 */
+		    background: linear-gradient(to bottom, lightgray , white); /* Standard syntax (must be last) */
+		}
+
+		.body-replacement {
+		    text-align: center;
+		}
+
+		#canvas-container {
+			width: 1000px;
+			text-align: center;
+			clear: both;
+			margin: 0 auto 0 auto;
+		}
+
+		canvas {
+			display: inline;
+			background-color: white;
+			outline: 0;
+		}
+
+		.time {
+			z-index: 1;
+			float: left;
+			width: 33%;
+			text-align: right;
+		}
+
+		.lifes {
+			z-index: 1;
+			float: left;
+			width: 33%;
+			text-align: left;
+		}
+
+		.scoreCounter {
+			z-index: 1;
+			float: left;
+			width: 34%;
+		}
+
+		.volume {
+			position: relative;
+			top: -3em;
+			left: 25em;
+			margin: 0 auto;
+			width: 20%;
+		}
+
+		.volume > img, input {
+			vertical-align: middle;
+			display: inline-block;
+		}
+
+		.link {
+			position: relative;
+			display: inline-block;
+			outline: none;
+			color: #435A6B;
+			text-decoration: none;
+			text-transform: uppercase;
+			font-weight: 400;
+			text-shadow: 0 0 1px rgba(255,255,255,0.3);
+		}
+
+		.link::before {
+			margin-right: 10px;
+			content: '[';
+			-webkit-transform: translateX(20px);
+			-moz-transform: translateX(20px);
+			transform: translateX(20px);
+		}
+
+		.link::after {
+			margin-left: 10px;
+			content: ']';
+			-webkit-transform: translateX(-20px);
+			-moz-transform: translateX(-20px);
+			transform: translateX(-20px);
+		}
+
+		.link:hover::before,
+		.link:hover::after,
+		.link:focus::before,
+		.link:focus::after {
+			opacity: 1;
+			-webkit-transform: translateX(0px);
+			-moz-transform: translateX(0px);
+			transform: translateX(0px);
+		}
+
+		.link::before,
+		.link::after {
+			display: inline-block;
+			opacity: 0;
+			-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+			-moz-transition: -moz-transform 0.3s, opacity 0.2s;
+			transition: transform 0.3s, opacity 0.2s;
+		}
+
+		.bug-report {
+			float: right;
+			margin-top: -25px;
+		}
+
+		.sweet-alert textarea {
+		    width: 90%;
+		    box-sizing: border-box;
+		    border-radius: 3px;
+		    border: 1px solid #d7d7d7;
+		    margin-top: 10px;
+		    font-size: 18px;
+		    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.06);
+		    padding: 0 12px;
+		    -webkit-transition: all 0.3s;
+		    transition: all 0.3s;
+		    resize:none;
+		}
+
+	    .sweet-alert textarea:focus {
+	      outline: none;
+	      box-shadow: 0px 0px 3px #c4e6f5;
+	      border: 1px solid #b4dbed;
+		}
+
+		.credits {
+			float: right;
+			margin-right: 5%; 
+		}
+		.project {
+			margin-left: 5%; 
+		}
+		a {
+			font-size: 1.2em;
+		    text-align: left !important;
+		}
+	</style>
+	<body>
+		<div>
+			<a class="project" target="_blank" href="http://mariohd.github.io/JSGames/">JsGames Project</a>
+			<a class="credits" target="_blank" href="https://github.com/mariohd">Developed By Mario HD</a>
+		</div>
+		<div class="body-replacement">
+			<div id="canvas-container">	
+				<div class="hud">
+		    		<span id="lifeCounter" class="lifes guardians">
+		    			<img src="img/ship.png" width="32" height="32"> x <span id="counter">3</span>
+		    		</span>
+				    <span id="scoreCounter" class="scoreCounter guardians">0000000</span>
+				    <span id="timeCounter" class="time guardians">00:00</span>
+				</div>
+				<canvas id="game-canvas" width="1000" height="600" tabindex="1">
+					Your browser does not support HTML5 Canvas. 
+				</canvas>
+				<div class="volume">
+					<img src="img/som.png" height="32" width="32">
+					<input type="range" id="song-volume" value="30">
+				</div>
+			</div>
+			<span class="guardians"><h2>How to play</h2></span>
+			<img src="img/comandos.png">
+			<span class="guardians"><h2>Credits</h2></span>
+			<footer>
+				Loading-Track Name: "Dragon Warrior"<br>
+				Composed by: Marcus Dellicompagni <br>
+				Website: www.PoundSound.co.uk <br>
+			</footer>
+		</div>
+	</body>
+	<script src="ranking.js"></script>
+	<script src="animacao.js"></script>
+	<script src="stages.js"></script>
+	<script src="player.js"></script>
+	<script src="spritesheet.js"></script>
+	<script src="teclado.js"></script>
+	<script src="upgrade.js"></script>
+	<script src="tiro.js"></script>
+	<script src="enemy.js"></script>
+	<script src="explosao.js"></script>
+	<script src="colisor.js"></script>
+	<script src="chefe.js"></script>
+	<script src="tiroInimigo.js"></script>
+	<script src="vida.js"></script>
+	<script src="cannons.js"></script>
+	<script src="escudo.js"></script>
+	<script src="clockTimer.js"></script>
+	<script src="gygas.js"></script>
+	<script src="rariax.js"></script>
+	<script src="demilich.js"></script>
+
+	<script src="game.js"></script>
+	<script>
+		var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+		if (!is_chrome) {
+
+			swal("Chrome not detected", "This game works better with Google Chrome, \nwe kindly ask you to use it.", "warning");
+		}
+	</script>
+
+</html>
